@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <GetScheduleInfoRequest xmlns="http://www.rt-eu.ru/med/er/v2_0">
+            <Session_ID>{session_id}</Session_ID>
+            <Specialist_SNILS>{specialist_snils}</Specialist_SNILS>
+            <Service_Post>
+                <Post>
+                    <Post_Id>{post_id}</Post_Id>
+                </Post>
+            </Service_Post>
+            <Start_Date_Range>{date_start}</Start_Date_Range>
+            <End_Date_Range>{date_end}</End_Date_Range>
+            <Start_Time_Range>{time_start}</Start_Time_Range>
+            <End_Time_Range>{time_end}</End_Time_Range>
+        </GetScheduleInfoRequest>
+    </soap:Body>
+</soap:Envelope>

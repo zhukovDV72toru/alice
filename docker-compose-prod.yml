@@ -1,0 +1,48 @@
+services:
+  redis:
+    image: redis-image
+    container_name: alice-redis
+    environment:
+      - TZ=Asia/Yekaterinburg
+    networks:
+      - app-network
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  web:
+    image: alice-med72-api-image
+    container_name: alice-web
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=DEBUG
+      - CONTAINERIZED=true
+      - TZ=Asia/Yekaterinburg
+    depends_on:
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  celery:
+    image: alice-med72-api-image
+    container_name: alice-celery
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - TZ=Asia/Yekaterinburg
+    command: celery -A celery_app.app worker --loglevel=info --concurrency=4
+    depends_on:
+      - redis
+      - web
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

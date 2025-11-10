@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://www.rt-eu.ru/med/er/v2_0">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <v2:GetPatientInfoRequest>
+            <v2:Session_ID>{session_id}</v2:Session_ID>
+            <v2:Patient_Data>
+                <v2:First_Name>{first_name}</v2:First_Name>
+                <v2:Last_Name>{last_name}</v2:Last_Name>
+                <v2:Middle_Name>{middle_name}</v2:Middle_Name>
+                <v2:Birth_Date>{birth_date}</v2:Birth_Date>
+                <v2:Sex>{gender}</v2:Sex>
+            </v2:Patient_Data>
+        </v2:GetPatientInfoRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,75 @@
+services:
+  redis-stage:
+    image: redis-stage:8-alpine
+    container_name: redis-stage
+    environment:
+      - TZ=Asia/Yekaterinburg
+    networks:
+      - app-network-stage
+    volumes:
+      - redis_data_stage:/data
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+
+  web-stage:
+    image: alice-med72-api-image-stage
+    container_name: web-stage
+    ports:
+      - "8001:8000"
+    environment:
+      - FER_URL=${FER_URL}
+      - FER_LOGIN=${FER_LOGIN}
+      - FER_PASSWORD=${FER_PASSWORD}
+      - SKILL_ID=${SKILL_ID}
+      - WEB_SERVER_HOST=0.0.0.0
+      - WEB_SERVER_PORT=8000
+      - WEBHOOK_PATH=${WEBHOOK_PATH}
+      
+      # Redis настройки
+      - REDIS_URL=redis://redis-stage:6379/0
+      - CELERY_BROKER_URL=redis://redis-stage:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis-stage:6379/0
+      
+      # Системные настройки
+      - TZ=Asia/Yekaterinburg
+      - CONTAINERIZED=true
+      
+    depends_on:
+      - redis-stage
+    networks:
+      - app-network-stage
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  celery-stage:
+    image: alice-med72-api-image-stage
+    container_name: celery-stage
+    environment:
+      - FER_URL=${FER_URL}
+      - FER_LOGIN=${FER_LOGIN}
+      - FER_PASSWORD=${FER_PASSWORD}
+      - SKILL_ID=${SKILL_ID}
+      - REDIS_URL=redis://redis-stage:6379/0
+      - CELERY_BROKER_URL=redis://redis-stage:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis-stage:6379/0
+      - TZ=Asia/Yekaterinburg
+    command: celery -A celery_app.app worker --loglevel=info --concurrency=2
+    depends_on:
+      - redis-stage
+      - web-stage
+    networks:
+      - app-network-stage
+    restart: unless-stopped
+    env_file:
+      - .env
+
+volumes:
+  redis_data_stage:
+    name: redis_data_stage
+
+networks:
+  app-network-stage:
+    name: app-network-stage
+    driver: bridge

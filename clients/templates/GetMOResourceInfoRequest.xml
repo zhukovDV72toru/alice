@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <v2:GetMOResourceInfoRequest xmlns:v2="http://www.rt-eu.ru/med/er/v2_0">
+            <v2:Session_ID>{session_id}</v2:Session_ID>
+            <v2:Service_Posts>
+                <v2:Post>
+                    <v2:Post_Id>{post_id}</v2:Post_Id>
+                </v2:Post>
+            </v2:Service_Posts>
+            <v2:MO_OID_List>
+                <v2:MO_OID>{oid}</v2:MO_OID>
+            </v2:MO_OID_List>
+            <v2:Start_Date_Range>{date_start}</v2:Start_Date_Range>
+            <v2:End_Date_Range>{date_end}</v2:End_Date_Range>
+        </v2:GetMOResourceInfoRequest>
+    </soap:Body>
+</soap:Envelope>

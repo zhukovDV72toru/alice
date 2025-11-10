@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap-env:Body>
+        <ns0:CreateAppointmentRequest xmlns:ns0="http://www.rt-eu.ru/med/er/v2_0">
+            <ns0:Session_ID>{session_id}</ns0:Session_ID>
+            <ns0:Slot_Id>{slot_id}</ns0:Slot_Id>
+        </ns0:CreateAppointmentRequest>
+    </soap-env:Body>
+</soap-env:Envelope>
